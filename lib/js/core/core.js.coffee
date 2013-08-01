@@ -253,6 +253,13 @@ window.SelectorGadget = class SelectorGadget
     jQuerySG("html").bind("keydown.sg", { 'self': @ }, @listenForActionKeys)
     jQuerySG("html").bind("keyup.sg", { 'self': @ }, @clearActionKeys)
   
+  removeEventHandlers: ->
+    jQuerySG("*:not(.selectorgadget_ignore)").unbind("mouseover.sg")
+    jQuerySG("*:not(.selectorgadget_ignore)").unbind("mouseout.sg")
+    jQuerySG("*:not(.selectorgadget_ignore)").unbind("mousedown.sg")
+    jQuerySG("html").unbind("keydown.sg")
+    jQuerySG("html").unbind("keyup.sg")
+  
   # The only action key right now is shift, which snaps to any div that has been selected.
   listenForActionKeys: (e) ->
     gadget = e.data.self;
@@ -283,7 +290,6 @@ window.SelectorGadget = class SelectorGadget
       @removeEventHandlers()
     else if mode == 'interactive'
       @setupEventHandlers()
-    @clearSelected()
   
   suggestPredicted: (prediction) ->
     if prediction && prediction != ''
